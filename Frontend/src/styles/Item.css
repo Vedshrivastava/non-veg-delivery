@@ -1,0 +1,224 @@
+
+:root {
+    --base-color: tomato;
+    --text-color: #333;
+    --background-color: #f9f9f9;
+    --border-color: #ddd;
+  }
+  
+  .item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--background-color);
+  }
+  
+  .item-image-container {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .item-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .item-info {
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+  
+  .item-info h1 {
+    color: var(--base-color);
+    margin-bottom: 10px;
+    font-size: 2rem;
+    font-weight: 500;
+  }
+  
+  .item-info p {
+    color: var(--text-color);
+    margin: 5px 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+  
+  .item-info .price{
+    margin-top: 15px;
+    color: var(--text-color);
+    font-weight: 500;
+    margin: 5px 0;
+    font-size: 2rem;
+    color: tomato;
+  }
+  
+  .review-form {
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .review-form h2 {
+    color: var(--base-color);
+    margin-bottom: 10px;
+  }
+  
+  .review-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .review-form select,
+  .review-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    margin-top: 5px;
+    font-size: 1rem;
+  }
+  
+  .review-form button{
+    background-color: var(--base-color);
+    border: none;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 10px;
+  }
+
+  .add-review-button{
+    color: var(--base-color);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-left: auto; /* Push the button to the right */
+    margin-right: 6px;
+    display: block;    /* Optional: Make it a block element */
+    margin-bottom: -24px;
+  }
+  
+  .review-form button:hover {
+    background-color: darkred;
+  }
+  
+  .review-form button[type='button'] {
+    background-color: #bbb;
+  }
+  
+  .review-form button[type='button']:hover {
+    background-color: #999;
+  }
+  
+ .star-rating {
+    display: inline-flex;
+    font-size: 1.2rem;
+}
+
+.star {
+    color: gray;
+    transition: color 0.3s ease, transform 0.6s ease; 
+}
+
+.star.filled {
+    color: gold;
+}
+
+.star.animate {
+    animation: pulse 0.6s ease; 
+}
+
+.reviews-section {
+  width: 100%;
+  max-width: 600px;
+}
+
+.reviews-section h2 {
+  color: var(--base-color);
+  margin-bottom: 10px;
+}
+
+.reviews-list {
+  margin-bottom: 20px;
+}
+
+.review-item {
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; 
+  position: relative; 
+}
+
+.review-content {
+  flex: 1;
+}
+
+.review-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  height: calc(100% - 20px); 
+}
+
+.review-actions button {
+  background: none; 
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.review-actions .edit-button,
+.review-actions .delete-button {
+  font-size: 18px;
+  margin-bottom: 10px; 
+}
+
+.review-actions button:hover {
+  color: tomato
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+}
+
+@media (max-width: 480px) {
+  .item-container{
+    margin-top: 50px;
+  }
+
+  .item-info h1{
+    font-size: 1.5rem;
+  }
+
+  .item-info p{
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,107 @@
+.order-item {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1fr 1fr 0.5fr; /* Original layout */
+    align-items: start;
+    gap: 30px;
+    border: 1px solid tomato;
+    padding: 20px;
+    margin: 30px 0px;
+    font-size: 14px;
+    color: #505050;
+    overflow: hidden; /* Prevent overflow */
+}
+
+.order-item-food, .order-item-name {
+    font-weight: 600;
+}
+
+.order-item-phone {
+    font-weight: 600;
+}
+
+.order-item-name {
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+
+.order-item-address {
+    margin-bottom: 10px;
+}
+
+.order-item select {
+    background-color: #ffe8e4;
+    border: 1px solid tomato;
+    width: max(10vw, 120px);
+    padding: 10px;
+    outline: none;
+}
+
+/* Date Separator */
+.order-date {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff6347; /* Tomato color to match the theme */
+    margin-bottom: 10px;
+}
+
+.order-date-separator {
+    width: 100%;
+    height: 5px; /* Height similar to the date size */
+    background: linear-gradient(to right, rgba(255, 99, 71, 0.7), rgba(0, 0, 0, 0.7)); /* Reddish-black gradient */
+    border-radius: 5px;
+    margin: 10px 0; /* Adds spacing around the separator */
+}
+
+.order-item-phone {
+    display: flex; /* Use flex to align items in a row */
+    align-items: center; /* Center align items vertically */
+  }
+  
+  .call-button {
+    text-decoration: none; /* Remove underline */
+    color: blue; /* Button color */
+    font-size: 14px; /* Font size */
+    margin-bottom: 3px;
+    margin-left: 16px;
+  }
+
+
+/* Responsive adjustments */
+@media (max-width: 1000px) {
+    .order-item {
+        font-size: 12px;
+        grid-template-columns: 0.5fr 2fr 1fr; /* Adjust columns for medium screens */
+        padding: 15px 8px;
+    }
+    
+    .order-item select {
+        padding: 5px;
+        font-size: 12px;
+        width: 100%; /* Full width for better fit */
+        box-sizing: border-box; /* Ensure padding is included in width */
+    }
+    
+    .order-item img {
+        width: 40px;
+    }
+
+    .order-date {
+        font-size: 16px;
+    }
+
+    .order-date-separator {
+        height: 3px; /* Smaller height for mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .order-item {
+        grid-template-columns: 1fr; /* Stack items for small screens */
+        padding: 10px; /* Reduce padding for small screens */
+        margin: 15px 0; /* Reduce margin for small screens */
+    }
+
+    .order-item select {
+        width: 100%; /* Full width for select on small screens */
+    }
+}

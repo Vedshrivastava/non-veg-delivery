@@ -1,0 +1,192 @@
+.navbar {
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Makes it stretch across the full width */
+    background-color: white; /* Optional: Set background color */
+}
+
+.navbar .logo {
+    width: 150px;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    color: #49557e;
+    font-size: 18px;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Space between items */
+    position: relative; /* Ensure relative positioning for the dot */
+}
+
+.navbar-search-icon {
+    position: relative; /* Ensure this container is the reference for the dot */
+}
+
+.navbar-search-icon img {
+    width: 24px; /* Adjust size as needed */
+}
+
+.navbar-search-icon .dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: tomato;
+    border-radius: 50%; /* Makes it circular */
+    top: -5px; /* Adjust as needed */
+    right: -5px; /* Adjust as needed */
+    z-index: 10; /* Ensure it appears above other elements */
+}
+
+.navbar button {
+    background: transparent;
+    font-size: 16px;
+    color: #49557e;
+    border: 1px solid tomato;
+    padding: 10px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for changes */
+}
+
+.navbar button:hover {
+    background-color: #fff4f2;
+}
+
+.navbar .active {
+    padding-bottom: 2px;
+    border-bottom: 2px solid #49557e;
+}
+
+.navbar li {
+    cursor: pointer;
+}
+
+.navbar-profile {
+    position: relative;
+}
+
+.nav-profile-dropdown {
+    position: absolute;
+    display: none;
+    right: 0;
+    z-index: 1;
+    background-color: #fff2ef;
+    padding: 12px 20px; /* Adjusted padding for better coverage */
+    border-radius: 4px;
+    border: 1px solid tomato;
+    outline: 2px solid white;
+    list-style: none;
+    min-width: 150px; /* Ensures the dropdown is wide enough */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds shadow for better visibility */
+}
+
+.navbar-profile:hover .nav-profile-dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-profile-dropdown li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px 0; /* Added padding to make each item more clickable */
+}
+
+.nav-profile-dropdown li:hover {
+    background-color: #f0e6e6; /* Light background on hover for better UX */
+}
+
+/* Media Queries for Mobile Adjustments */
+
+@media (max-width: 1050px) {
+    .navbar .logo {
+        width: 140px;
+    }
+
+    .navbar-menu {
+        gap: 20px;
+        font-size: 17px;
+    }
+
+    .navbar-right {
+        gap: 3vw; /* Adjust gap for better spacing */
+    }
+
+    .navbar-right img {
+        width: 22px;
+    }
+
+    .navbar-right button {
+        padding: 8px 25px;
+    }
+}
+
+@media (max-width: 900px) {
+    .navbar .logo {
+        width: 120px;
+    }
+
+    .navbar-menu {
+        gap: 15px;
+        font-size: 16px;
+    }
+
+    .navbar-right {
+        gap: 3vw; /* Adjust gap for smaller screens */
+    }
+
+    .navbar-right img {
+        width: 20px;
+    }
+
+    .navbar-right button {
+        padding: 7px 20px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 750px) {
+    .navbar-menu {
+        display: none;
+    }
+
+    .navbar-right {
+        gap: 4vw; /* Consistent gap for mobile */
+    }
+
+    .navbar-right img {
+        width: 18px; /* Adjust size for mobile */
+    }
+
+    .navbar-right button {
+        padding: 6px 15px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar{
+        background: #f4f4f4;
+        padding: 15px 0px;
+        position: fixed; /* Fixes the navbar at the top */
+        top: 0; /* Ensures it's at the very top */
+        left: 0;
+        z-index: 1; /* Ensures it appears above other content */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Adds a shadow below the navbar */
+    }
+
+    .navbar button{
+        padding: 2px 10px !important;
+        font-size: 12px ;
+    }
+}

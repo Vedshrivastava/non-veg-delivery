@@ -1,0 +1,148 @@
+.cart {
+    margin-top: 100px;
+}
+
+.cart-items-title {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr 0.5fr;
+    align-items: center;
+    color: grey;
+    font-size: max(1vw, 12px);
+    gap: 10px;
+}
+
+.cart-items-item {
+    margin: 10px 0px;
+    color: black;
+}
+
+.cart-items-item img {
+    width: 50px;
+}
+
+.cart hr {
+    height: 1px;
+    background-color: #e2e2e2;
+    border: none;
+}
+
+.cart-items-item .cross {
+    cursor: pointer;
+    color: tomato;
+    font-size: x-large;
+    font-weight: 400;
+}
+
+.cart-bottom {
+    margin-top: 50px;
+    padding: 20px;
+    border-top: 1px solid #e2e2e2;
+    background-color: #ffffff;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cart-total {
+    margin-bottom: 15px;
+}
+
+.cart-total h2 {
+    font-size: 1.4em;
+    margin: 0;
+    color: #333;
+}
+
+.cart-total-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.cart-total-details p {
+    margin: 0;
+}
+
+.cart-total-details b {
+    font-weight: bold;
+    color: #333;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button-container button {
+    padding: 12px 20px;
+    font-size: 1.1em;
+    color: #fff;
+    background-color: tomato;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.button-container button:hover {
+    background-color: tomato !important;
+    opacity: 0.9;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    margin-left: -10px; 
+}
+
+
+.quantity-controls button {
+    margin: 0 5px;
+    padding: 4px 8px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quantity-controls button:hover {
+    background-color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quantity-controls button:active {
+    background-color: #d5d5d5;
+}
+
+@media (max-width: 700px) {
+
+    .total {
+        margin-right: 15px;
+    }
+
+    .cart-items-title {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr 1fr;
+    }
+    .cart{
+        width: 85% !important;
+        margin: 20px auto;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .cart{
+        margin-top: 60px !important;
+    }
+    
+}

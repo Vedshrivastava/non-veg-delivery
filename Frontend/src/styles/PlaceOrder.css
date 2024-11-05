@@ -1,0 +1,231 @@
+.place-order {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 60px; /* Adds gap between left and right sections */
+}
+
+.place-order-left,
+.place-order-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.place-order-left {
+  flex: 2; /* Takes up more space */
+  max-width: 70%; /* Ensures it doesn't grow too large */
+}
+
+.place-order-right {
+  flex: 1; /* Takes up less space */
+  max-width: 30%; /* Ensures it doesn't grow too large */
+  background: #f9f9f9; /* Light background to distinguish from left */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.multi-fields {
+  display: flex;
+  gap: 10px;
+}
+
+.multi-fields input {
+  flex: 1;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+input::placeholder {
+  color: #888;
+}
+
+.title {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.5em; /* Adjust the font size */
+  margin-bottom: 15px; /* Space below the heading */
+  font-weight: bold; /* Make the text bold */
+  color: #333; /* Dark gray color for the text */
+  border-bottom: 2px solid tomato; /* Bottom border with color */
+  padding-bottom: 5px; /* Padding below the text */
+}
+
+.cart-total {
+  margin-bottom: 10px;
+}
+
+.cart-total-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.button-container button {
+  background-color: tomato;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.button-container button:hover {
+  background-color: rgba(0, 86, 179, 0.8); /* Adjust opacity as needed */
+}
+/* Media Queries for Screens Around 1080px */
+@media (max-width: 1080px) and (min-width: 769px) {
+  .place-order {
+    flex-direction: row;
+    gap: 30px; /* Gap between left and right sections */
+  }
+
+  .place-order-left,
+  .place-order-right {
+    flex: 1; /* Both sections take equal space but adjust widths */
+  }
+
+  .place-order-left {
+    max-width: calc(50% - 15px); /* Fixed width with gap consideration */
+  }
+
+  .place-order-right {
+    max-width: calc(50% + 15px); /* Adjusted to account for the gap */
+    background: #f9f9f9; /* Light background for distinction */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for visual depth */
+  }
+
+  .multi-fields {
+    flex-direction: row; /* Keep inputs in a row */
+    gap: 15px; /* Adjust gap between inputs */
+  }
+
+  .multi-fields input {
+    flex: 1; /* Make inputs flexible */
+    width: 100%; /* Ensure inputs take full width of the container */
+  }
+
+  input {
+    padding: 10px;
+    font-size: 1em; /* Adjust font size for better readability */
+  }
+
+  h2 {
+    font-size: 1.3em; /* Adjust font size for headings */
+    margin-bottom: 12px; /* Space below heading */
+  }
+
+  .cart-total-details {
+    flex-direction: row; /* Keep cart total details in a row */
+    justify-content: space-between; /* Distribute space evenly */
+    margin-bottom: 12px; /* Margin between total details */
+  }
+
+  .button-container button {
+    font-size: 1em; /* Adjust font size for button */
+    padding: 12px; /* Adjust padding for button */
+  }
+}
+
+
+@media (max-width: 768px) {
+  .place-order {
+    flex-direction: column;
+    gap: 20px; /* Gap between left and right sections */
+  }
+
+  .place-order-left,
+  .place-order-right {
+    max-width: 100%; /* Full width for both sections */
+    flex: none; /* Remove flex-grow property */
+  }
+
+  .place-order-right {
+    background: #f9f9f9; /* Maintain background for distinction */
+    padding: 15px; /* Adjust padding for smaller screens */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Reapply shadow for visual distinction */
+    margin-top: 30px;
+  }
+
+  .multi-fields {
+    flex-direction: column; /* Stack input fields vertically */
+    gap: 10px; /* Adjust gap between inputs */
+  }
+
+  .multi-fields input {
+    width: 100%; /* Full width for input fields */
+  }
+
+  input {
+    padding: 8px; /* Adjust padding for better fit */
+    font-size: 0.9em; /* Adjust font size */
+  }
+
+  h2 {
+    font-size: 1.2em; /* Adjust font size for headings */
+    margin-bottom: 10px; /* Reduce margin below heading */
+  }
+
+  .cart-total-details {
+    flex-direction: column; /* Stack cart total details vertically */
+    align-items: flex-start; /* Align items to start */
+    gap: 10px; /* Gap between total details */
+  }
+
+  .button-container button {
+    font-size: 0.9em; /* Adjust font size */
+    padding: 12px; /* Adjust padding */
+  }
+}
+
+/* For smaller mobile devices */
+@media (max-width: 480px) {
+  .place-order {
+    padding: 10px; /* Reduce padding for smaller screens */
+    width: 85%;
+    margin: 0 auto;
+  }
+
+  .place-order-left{
+    margin-top: 70px !important;
+  }
+
+  .place-order-right {
+    padding: 10px; /* Further reduce padding */
+    margin-top: 30px;
+  }
+
+  .multi-fields {
+    gap: 8px; /* Further reduce gap between inputs */
+  }
+
+  .multi-fields input {
+    padding: 6px; /* Further reduce padding */
+  }
+
+  input {
+    font-size: 0.8em; /* Further adjust font size */
+  }
+
+  h2 {
+    font-size: 1em; /* Further reduce heading size */
+  }
+
+  .cart-total-details {
+    font-size: 0.8em; /* Adjust font size for smaller screens */
+  }
+}

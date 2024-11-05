@@ -1,0 +1,33 @@
+/* addCategory.css */
+.add-category-panel {
+    font-size: 16px;
+}
+
+.add-category-image img{
+    width: 120px;
+}
+
+.add-category-panel form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.add-category-panel input {
+    padding: 10px;
+    width: 100%;
+    max-width: 400px; /* Adjust as needed */
+}
+
+.add-category-panel button {
+    max-width: 120px;
+    border: none;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+p{
+    margin-bottom: 6px;
+}
