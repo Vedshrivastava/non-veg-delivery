@@ -22,32 +22,6 @@ const Header = () => {
     };
   }, []);
 
-  const scrollToElement = (targetId) => {
-    const element = document.getElementById(targetId);
-    console.log(`Scrolling to element with ID: ${targetId}`);
-    if (element) {
-      console.log(`Element found:`, element);
-      window.scrollTo({
-        top: element.offsetTop,
-        behavior: 'smooth',
-      });
-    } else {
-      console.log('Element not found.');
-    }
-  };
-
-  const handleScrollAndNavigate = (section, targetId) => {
-    setMenu(section);
-    navigate('/#' + targetId); 
-  };
-
-  useEffect(() => {
-    if (location.hash) {
-      const targetId = location.hash.replace('#', '');
-      scrollToElement(targetId);
-    }
-  }, [location]);
-
   return (
     <div className='header'>
       <img src={assets.header_img} alt="" />
@@ -60,10 +34,7 @@ const Header = () => {
           culinary creations, our menu offers something delightful for every palate.
         </p>
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            handleScrollAndNavigate("menu", "explore-menu");
-          }}
+          onClick={() => navigate('/menu')}  // Navigate directly to the /menu page
           className={menu === "menu" ? "active" : ""}
         >
           View Menu
