@@ -24,7 +24,7 @@ const Cart = () => {
   }, []);
 
   return (
-    <>
+    <div className='cart-main'>
       <div className='cart'>
         <div className="cart-items">
           <div className="cart-items-title">
@@ -92,7 +92,7 @@ const Cart = () => {
           <button onClick={() => navigate('/order')}>PROCEED TO CHECKOUT</button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

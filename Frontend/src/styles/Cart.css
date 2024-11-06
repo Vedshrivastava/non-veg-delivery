@@ -1,5 +1,22 @@
+.cart-main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 100px !important;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .cart {
-    margin-top: 100px;
+    flex: 2;
+    max-width: 60%;
+}
+
+.cart-items {
+    width: 100%;
 }
 
 .cart-items-title {
@@ -13,11 +30,15 @@
 
 .cart-items-item {
     margin: 10px 0px;
+    background: #f4f4f4;
+    height: 80px;
     color: black;
+    border-radius: 4px;
 }
 
 .cart-items-item img {
     width: 50px;
+    border-radius: 4px;
 }
 
 .cart hr {
@@ -34,15 +55,13 @@
 }
 
 .cart-bottom {
-    margin-top: 50px;
+    flex: 1;
     padding: 20px;
     border-top: 1px solid #e2e2e2;
     background-color: #ffffff;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
 }
 
 .cart-total {
@@ -98,9 +117,8 @@
 .quantity-controls {
     display: flex;
     align-items: center;
-    margin-left: -10px; 
+    margin-left: -10px;
 }
-
 
 .quantity-controls button {
     margin: 0 5px;
@@ -123,26 +141,43 @@
     background-color: #d5d5d5;
 }
 
-@media (max-width: 700px) {
+.total {
+    margin-right: 15px;
+}
 
-    .total {
-        margin-right: 15px;
+
+@media (max-width: 650px) {
+    .cart-main {
+        margin-top: 60px !important;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+    }
+    .cart{
+        max-width: 80%;
     }
 
+    .cart-bottom{
+        width: 400px;
+    }
+}
+@media (max-width: 420px) {
+
+    .cart-main{
+        margin-top: 100px !important;
+    }
     .cart-items-title {
-        display: grid;
         grid-template-columns: 1fr 1.5fr 1fr;
     }
-    .cart{
-        width: 85% !important;
-        margin: 20px auto;
+
+    .cart-items-item{
+        margin: 20px 0px;
+        height: 120px;
+        padding: 10px;
+    }
+
+    .cart hr{
+        display: none;
     }
 }
 
-@media (max-width: 480px) {
-
-    .cart{
-        margin-top: 60px !important;
-    }
-    
-}

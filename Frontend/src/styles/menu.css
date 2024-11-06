@@ -1,15 +1,13 @@
-/* Reset body padding and margin to prevent gaps */
-
 /* Menu container styles for side-by-side layout */
 .menu {
     display: flex;
     align-items: flex-start;
-    padding: 20px 0; /* Remove left and right padding */
+    padding: 20px 0;
     width: 100vw; /* Full viewport width */
     box-sizing: border-box;
 }
 
-/* Categories container (left sidebar) */
+/* Fixed Categories container (left sidebar) */
 .menu-categories {
     width: 18%;
     min-height: 100vh;
@@ -20,6 +18,12 @@
     flex-direction: column;
     gap: 20px;
     padding-top: 50px;
+    position: sticky;
+    top: 0; /* Stick to top */
+    height: 100vh; /* Full viewport height */
+    overflow-y: auto; /* Allow scrolling within the categories */
+    background-color: white; /* Keeps the sidebar background consistent */
+    z-index: 10; /* Ensures sidebar is above main content */
 }
 
 /* Category item style */
@@ -56,16 +60,17 @@
 
 /* Food items list (right content) */
 .menu-food-items {
-    width: 100%; /* Adjust to take full space with the sidebar */
+    width: 82%; /* Takes up remaining space */
     padding-left: 20px;
+    max-height: 100vh; /* Keeps food items within the viewport height */
+    overflow-y: auto; /* Allows independent scrolling for the food items */
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 20px;
-    max-width: 1200px; /* Adjust to allow food items to expand */
-    overflow-x: auto;
+    max-width: 1200px; /* Limits width for large screens */
 }
 
-/* Food items within each category section */
+/* Category section in food items */
 .category-section {
     width: 100%;
     margin-top: 20px;
@@ -86,26 +91,24 @@
 
 /* Responsive styles */
 @media (max-width: 900px) {
-    /* Hide category name on smaller screens */
     .menu-category-item p {
-        display: none;
+        display: none; /* Hides category names on medium screens */
     }
 
-    /* Adjust food item display for medium screens */
     .menu-food-items {
-        max-width: 700px;
+        max-width: 700px; /* Limits width for medium screens */
     }
 }
 
 @media (max-width: 480px) {
     .menu {
-        margin-top: 45px;
+        margin-top: 40px;
         flex-direction: column;
         align-items: center;
     }
 
     .menu-categories {
-        display: none;
+        display: none; /* Hides categories on very small screens */
     }
 
     .menu-food-items {
@@ -113,7 +116,7 @@
         padding-left: 0;
     }
 
-    /* Adjust the layout of food items for very small screens */
+    /* Adjusts food items layout for small screens */
     .food-items {
         gap: 10px;
     }
