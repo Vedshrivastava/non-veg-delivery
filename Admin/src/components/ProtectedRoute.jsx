@@ -26,7 +26,7 @@ const ProtectedRoute = ({ children, setShowLogin }) => {
             toast.error("Not authorized");
             navigate('/orders');
             return;
-        } else {
+        } else if(userRole !== 'ADMIN') {
             console.log("ProtectedRoute: User is not authorized. Showing login modal and navigating to home.");
             toast.error("Not Authorized")
                 navigate('/');

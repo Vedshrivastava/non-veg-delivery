@@ -16,6 +16,7 @@ import ResetPassword from './pages/ResetPassword';
 import Search from './components/Search';
 import { useAuthStore } from './store/authStore';
 import { StoreContext } from './context/StoreContext';
+import Menu from './pages/Menu';
 
 
 
@@ -81,7 +82,7 @@ const App = () => {
         <Navbar setShowLogin={setShowLogin} setShowSearch={setShowSearch} />
         <Routes>
           <Route path='/' element={
-              <Home setShowSearch={setShowSearch} />
+            <Home setShowSearch={setShowSearch} />
           } />
           <Route path='/cart' element={
             <ProtectedRoute setShowLogin={setShowLogin}>
@@ -108,7 +109,13 @@ const App = () => {
           <Route path='/reset-password/:token' element={
             <ResetPassword setShowLogin={setShowLogin} />
           } />
+
+          <Route path='/menu' element={
+            <Menu />
+          } />
         </Routes>
+
+
 
       </div>
       <Footer />

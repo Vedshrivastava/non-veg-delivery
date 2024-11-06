@@ -10,7 +10,7 @@ const Home = () => {
   console.log("Type of setShowSearch:", typeof setShowSearch); // Should log "function"
 
   return (
-    <div>
+    <div className='home'>
       <Header/>
       <ExploreMenu category={category} setCategory={setCategory} />
       <FoodDisplay category={category} />

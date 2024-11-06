@@ -60,16 +60,13 @@ const Navbar = ({ setShowLogin, setShowSearch }) => {
                     </Link>
                 </li>
                 <li>
-                    <a 
-                        href='#explore-menu' 
-                        onClick={(e) => {
-                            e.preventDefault();
-                            handleScrollAndNavigate("menu", "explore-menu");
-                        }} 
+                <Link 
+                        to='/menu' 
+                        onClick={() => handleScrollAndNavigate("menu")}
                         className={menu === "menu" ? "active" : ""}
                     >
                         Menu
-                    </a>
+                    </Link>
                 </li>
                 <li>
                     <a 

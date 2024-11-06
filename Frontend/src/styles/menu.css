@@ -1,0 +1,124 @@
+/* Reset body padding and margin to prevent gaps */
+
+/* Menu container styles for side-by-side layout */
+.menu {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px 0; /* Remove left and right padding */
+    width: 100vw; /* Full viewport width */
+    box-sizing: border-box;
+}
+
+/* Categories container (left sidebar) */
+.menu-categories {
+    width: 18%;
+    min-height: 100vh;
+    border-right: 1.5vh solid #a9a9a9;
+    font-size: max(1vw, 10px);
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 50px;
+}
+
+/* Category item style */
+.menu-category-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #a9a9a9;
+    border-right: 0;
+    padding: 8px 10px;
+    border-radius: 3px 0px 0px 3px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.menu-category-item.active {
+    background-color: #fff0ed;
+    border-color: tomato;
+}
+
+/* Category item image style */
+.menu-category-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Category item text style */
+.menu-category-item p {
+    margin: 0;
+}
+
+/* Food items list (right content) */
+.menu-food-items {
+    width: 100%; /* Adjust to take full space with the sidebar */
+    padding-left: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px; /* Adjust to allow food items to expand */
+    overflow-x: auto;
+}
+
+/* Food items within each category section */
+.category-section {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.category-section h2 {
+    font-size: max(2vw, 24px);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.food-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+    /* Hide category name on smaller screens */
+    .menu-category-item p {
+        display: none;
+    }
+
+    /* Adjust food item display for medium screens */
+    .menu-food-items {
+        max-width: 700px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu {
+        margin-top: 70px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu-categories {
+        display: none;
+    }
+
+    .menu-food-items {
+        width: 96%;
+        padding-left: 0;
+    }
+
+    /* Adjust the layout of food items for very small screens */
+    .food-items {
+        gap: 10px;
+    }
+
+    .category-section h2 {
+        font-size: 20px; /* Smaller font size for small screens */
+    }
+}
