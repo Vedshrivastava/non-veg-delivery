@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/ExploreMenu.css';
 import axios from 'axios';
 import { StoreContext } from '../context/StoreContext';
 
-const ExploreMenu = ({ category, setCategory }) => {
+const ExploreMenu = ({ setCategory }) => {
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState(null);
     const { url } = useContext(StoreContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const response = await axios.get(`${url}/api/category/get-categories`);
-
                 if (response.data.success) {
                     setCategories(response.data.categories);
                 } else {
@@ -30,20 +31,26 @@ const ExploreMenu = ({ category, setCategory }) => {
         return <div>Error: {error}</div>;
     }
 
+    const handleCategoryClick = (categoryName) => {
+        setCategory(categoryName); // Set the category in parent state
+        navigate(`/menu?category=${categoryName}`); // Navigate to Menu page with the category
+    };
+
     return (
         <div id='explore-menu' className='explore-menu'>
             <h1>Explore Our Menu</h1>
             <p>
-                Explore our diverse menu to find the perfect dish for your taste. Whether you are in the mood for something adventurous or prefer a classic favorite, our descriptions will guide you to a choice that satisfies your cravings and dietary preferences.
+                Explore our diverse menu to find the perfect dish for your taste.
             </p>
+            <hr />
             <div className="explore-menu-list">
-                {categories.map((item, index) => (
+                {categories.map((item) => (
                     <div
-                        key={index}
-                        onClick={() => setCategory(prev => prev === item.name ? "All" : item.name)}
+                        key={item._id}
+                        onClick={() => handleCategoryClick(item.name)}
                         className='explore-menu-list-items'
                     >
-                        <img className={category === item.name ? "active" : ""} src={item.image} alt={item.name} />
+                        <img src={item.image} alt={item.name} />
                         <p>{item.name}</p>
                     </div>
                 ))}

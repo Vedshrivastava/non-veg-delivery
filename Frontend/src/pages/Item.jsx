@@ -5,7 +5,7 @@ import { StoreContext } from '../context/StoreContext';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { toast } from 'react-toastify';
+import {toast, Toaster} from 'react-hot-toast'
 
 const Item = () => {
     const { token, url, userId, userName } = useContext(StoreContext);
@@ -211,6 +211,7 @@ const Item = () => {
                     <p>No reviews yet.</p>
                 )}
             </div>
+            <Toaster/>
         </div>
     );
 };

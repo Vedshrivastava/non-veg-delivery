@@ -14,7 +14,7 @@
     left: 0;
     width: 250px; /* Fixed width for the sidebar */
     padding-top: 50px;
-    border-right: 1.5vh solid #a9a9a9;
+    border-right: 8px solid #e3e0e0;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -24,6 +24,7 @@
     overflow-y: auto; /* Allows scrolling if content exceeds max height */
     z-index: 10;
     box-sizing: border-box;
+    min-height: calc(100vh - 90px); /* Ensures the border reaches near the bottom of the viewport */
 }
 
 /* Category item style */
@@ -87,39 +88,84 @@
     margin-top: 20px;
 }
 
-/* Responsive styles */
-@media (max-width: 900px) {
+@media (max-width: 526px) {
     .menu-category-item p {
-        display: none; /* Hides category names on medium screens */
-    }
-
-    .menu-food-items {
-        max-width: calc(100vw - 100px); /* Adjust width for smaller screens */
-    }
-}
-
-@media (max-width: 480px) {
-    .menu {
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
+        display: none; /* Hides text for small screens */
     }
 
     .menu-categories {
-        display: none; /* Hides categories on very small screens */
+        width: 100px; /* Reduces sidebar width */
+    }
+}
+
+/* Media query for max-width 440px */
+@media (max-width: 440px) {
+    .menu {
+        margin-top: 60px;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px !important;
     }
 
-    .menu-food-items {
-        margin-left: 0;
+    .menu-category-item p {
+        display: contents;
+    }
+
+    /* Sticky Categories container (left sidebar) */
+    .menu-categories {
+        position: fixed; /* Remove sticky behavior */
+        top: 50px; /* Reset the top positioning */
+        padding-top: 10px;
+        display: flex;
+        flex-direction: row; /* Align items in a row */
+        gap: 15px; /* Adjust gap between items */
+        font-size: max(2vw, 12px); /* Larger font for better readability */
+        overflow-x: auto; /* Enable horizontal scrolling */
+        border: none;
+        min-height: 70px !important; /* Ensures proper height */
+        box-sizing: border-box;
+        margin: auto !important;
+        justify-content: flex-start; /* Align items to the left to allow scrolling */
+        flex-wrap: nowrap; /* Prevent wrapping, force horizontal scrolling */
+        z-index: 10; /* Ensure it stays on top */
         width: 100%;
     }
 
-    /* Adjusts food items layout for small screens */
-    .food-items {
+    .menu-category-item {
+        padding: 5px 10px;
         gap: 10px;
+        height: 50px !important;
+        width: 120px; /* Fixed width for category items */
+        flex-shrink: 0; /* Prevents items from shrinking */
     }
 
+    .menu-category-item img {
+        width: 40px; /* Smaller image size */
+        height: 40px;
+    }
+
+    /* Food items layout adjustments */
+    .menu-food-items {
+        margin-left: 0;
+        width: 100%;
+        padding: 0px !important;
+        margin-top: 50px !important;
+    }
+
+    .food-items {
+        gap: 10px; /* Reduce gap between items */
+    }
+
+    /* Adjust category section title for small screens */
     .category-section h2 {
-        font-size: 20px; /* Smaller font size for small screens */
+        font-size: 18px; /* Smaller font for titles */
+    }
+
+    /* Adjust for category item active state */
+    .menu-category-item.active {
+        padding: 5px 10px;
+        border-radius: 3px;
+        background-color: #fff0ed;
+        border-color: tomato;
     }
 }

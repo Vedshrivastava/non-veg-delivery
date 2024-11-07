@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import '../styles/menu.css';
 import axios from 'axios';
 import { StoreContext } from '../context/StoreContext';
+import { useLocation } from 'react-router-dom'; // Added to access the URL query
 import FoodItem from '../components/FoodItem';
 
 const Menu = () => {
@@ -9,6 +10,7 @@ const Menu = () => {
     const [category, setCategory] = useState("All");
     const [error, setError] = useState(null);
     const { url, food_list } = useContext(StoreContext);  // Access food_list from context
+    const location = useLocation(); // Get the current location (URL)
 
     // Fetch categories
     useEffect(() => {
@@ -27,6 +29,16 @@ const Menu = () => {
         fetchCategories();
     }, [url]);
 
+    // Parse query parameters to get the selected category from the URL
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const selectedCategory = queryParams.get('category');
+        if (selectedCategory) {
+            setCategory(selectedCategory);
+            handleCategoryClick(selectedCategory);  // Ensure the category is selected and active
+        }
+    }, [location.search]); // Re-run when location.search changes
+
     if (error) {
         return <div>Error: {error}</div>;
     }
@@ -38,12 +50,23 @@ const Menu = () => {
     }, {});
 
     const handleCategoryClick = (categoryName) => {
-        setCategory(prev => prev === categoryName ? "All" : categoryName);
-        const element = document.getElementById(categoryName);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+        setCategory(categoryName);
+    
+        // Adding a slight delay for smooth scrolling
+        setTimeout(() => {
+            const element = document.getElementById(categoryName);
+            if (element) {
+                // Get the position of the target element
+                const targetPosition = element.offsetTop;
+                // Scroll to the position, 40px above the element
+                window.scrollTo({
+                    top: targetPosition - 80, // Stop 40px above the target
+                    behavior: 'smooth',
+                });
+            }
+        }, 100); // Delay of 100ms for smooth transition
     };
+    
 
     return (
         <div id='menu' className='menu'>
