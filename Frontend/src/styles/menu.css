@@ -62,7 +62,7 @@
 /* Food items list (right content) */
 .menu-food-items {
     padding: 20px;
-    width: 100%;
+    width: 60%;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -88,6 +88,12 @@
     gap: 20px;
     margin-top: 20px;
 }
+
+.menu .cart-bottom {
+    position: sticky;
+    top: 88px; /* Adjust this value as needed */
+}
+
 
 @media (max-width: 526px) {
     .menu-category-item p {

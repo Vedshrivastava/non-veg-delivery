@@ -2,15 +2,19 @@ import React, { useState, useEffect, useContext } from 'react';
 import '../styles/menu.css';
 import axios from 'axios';
 import { StoreContext } from '../context/StoreContext';
-import { useLocation } from 'react-router-dom'; // Added to access the URL query
+import { useLocation, useNavigate } from 'react-router-dom'; // Added to access the URL query
 import FoodItem from '../components/FoodItem';
 
 const Menu = () => {
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState("All");
     const [error, setError] = useState(null);
-    const { url, food_list } = useContext(StoreContext);  // Access food_list from context
-    const location = useLocation(); // Get the current location (URL)
+    const { url, food_list, getTotalCartAmount } = useContext(StoreContext); // Access food_list and getTotalCartAmount from context
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const totalAmount = getTotalCartAmount() || 0;
+    const deliveryFee = totalAmount ? 20 : 0;
 
     // Fetch categories
     useEffect(() => {
@@ -35,7 +39,7 @@ const Menu = () => {
         const selectedCategory = queryParams.get('category');
         if (selectedCategory) {
             setCategory(selectedCategory);
-            handleCategoryClick(selectedCategory);  // Ensure the category is selected and active
+            handleCategoryClick(selectedCategory); // Ensure the category is selected and active
         }
     }, [location.search]); // Re-run when location.search changes
 
@@ -48,7 +52,6 @@ const Menu = () => {
         acc[category.name] = food_list.filter(item => item.category === category.name);
         return acc;
     }, {});
-
 
     const handleCategoryClick = (categoryName) => {
         setCategory(categoryName);
@@ -102,6 +105,28 @@ const Menu = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+            <div className="cart-bottom">
+                <div className="cart-total">
+                    <h2>Cart Total</h2>
+                </div>
+                <div className="cart-total-details">
+                    <p>Subtotal</p>
+                    <p>₹{totalAmount}</p>
+                </div>
+                <hr />
+                <div className="cart-total-details">
+                    <p>Delivery Fee</p>
+                    <p>₹{deliveryFee}</p>
+                </div>
+                <hr />
+                <div className="cart-total-details">
+                    <b>Total</b>
+                    <b>₹{totalAmount + deliveryFee}</b>
+                </div>
+                <div className="button-container">
+                    <button onClick={() => navigate('/order')}>Select Delivery Address</button>
+                </div>
             </div>
         </div>
     );
