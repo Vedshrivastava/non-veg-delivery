@@ -94,6 +94,16 @@
     top: 88px; /* Adjust this value as needed */
 }
 
+@media (max-width: 1160px) {
+    .menu .cart-bottom{
+        display: none;
+    }
+
+    .menu-food-items{
+        width: 100%;
+    }
+}
+
 
 @media (max-width: 526px) {
     .menu-category-item p {
