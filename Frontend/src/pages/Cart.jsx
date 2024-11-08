@@ -26,15 +26,8 @@ const Cart = () => {
   return (
     <div className='cart-main'>
       <div className='cart'>
+      <h2>My Cart</h2>
         <div className="cart-items">
-          <div className="cart-items-title">
-            <p>Items</p>
-            <p>Title</p>
-            <p>Price</p>
-            <p>Quantity</p>
-            <p>Total</p>
-            <p>Remove</p>
-          </div>
           <br />
           <hr />
           {
@@ -89,7 +82,7 @@ const Cart = () => {
           <b>₹{totalAmount + deliveryFee}</b>
         </div>
         <div className="button-container">
-          <button onClick={() => navigate('/order')}>PROCEED TO CHECKOUT</button>
+          <button onClick={() => navigate('/order')}>Select Delivery Address</button>
         </div>
       </div>
     </div>

@@ -6,20 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const PlaceOrder = () => {
-  const { getTotalCartAmount, token, setCartItems, food_list, cartItems, url } =
+  const { getTotalCartAmount, token, setCartItems, food_list, cartItems, url, userName, userEmail, userPhone } =
     useContext(StoreContext);
   const navigate = useNavigate();
 
   const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
+    name: userName,
+    email: userEmail,
     street: "",
     city: "Nagod",
     state: "Madhya Pradesh",
     zipcode: "485446",
     country: "India",
-    phone: "",
+    phone: userPhone,
   });
 
   const onChangeHandler = (event) => {
@@ -49,7 +48,7 @@ const PlaceOrder = () => {
       MID: 'MID' + Date.now(),
       transactionId: 'T' + Date.now(),
       customer: {
-        name: `${data.firstName} ${data.lastName}`,
+        name: `${userName}`,
         address: {
           line1: data.street,
           city: data.city,
@@ -83,31 +82,31 @@ const PlaceOrder = () => {
   const placeOrderCod = async (event) => {
     event.preventDefault();
     console.log("Placing order with Cash on Delivery (COD)...");
-  
-    const { firstName, lastName, email, street, city, state, zipcode, phone } = data;
-    if (!firstName || !lastName || !email || !street || !city || !state || !zipcode || !phone) {
+
+    const { street, city, state, zipcode } = data;
+    if (!street || !city || !state || !zipcode) {
       alert("Please fill out all required fields.");
       return;
     }
-  
+
     console.log("Current form data:", data);
-  
+
     const orderItems = food_list
       .filter((item) => cartItems[item._id] > 0)
       .map((item) => ({
         ...item,
         quantity: cartItems[item._id],
       }));
-  
+
     console.log("COD order items:", orderItems);
-  
+
     let orderDataCod = {
       userId: localStorage.getItem("userId"),
       address: data,
       items: orderItems,
       amount: getTotalCartAmount() ? getTotalCartAmount() + 20 : 0,
       customer: {
-        name: `${data.firstName} ${data.lastName}`,
+        name: userName,
         address: {
           line1: data.street,
           city: data.city,
@@ -117,24 +116,24 @@ const PlaceOrder = () => {
         },
       },
     };
-  
+
     console.log("COD order data:", orderDataCod);
-  
+
     try {
       let responseCod = await axios.post(url + "/api/order/cod", orderDataCod, {
         headers: { Authorization: `Bearer ${token}` },
       });
-  
+
       console.log("COD order response:", responseCod.data);
-  
+
       if (responseCod.data.success) {
         // Clear cart in the frontend
         console.log("COD order placed successfully, clearing cart...");
-  
+
         // Assuming you have a function or context state to clear the cart
         setCartItems([]); // Update your cart state to be empty
         localStorage.removeItem("cartItems"); // Clear localStorage if cart is stored there
-  
+
         navigate("/success"); // Navigate to success page
       } else {
         console.error("Error placing COD order:", responseCod.data.message);
@@ -145,8 +144,8 @@ const PlaceOrder = () => {
       alert("An error occurred while placing the order. Please try again.");
     }
   };
-  
-  
+
+
 
   useEffect(() => {
     console.log("Checking user token and cart amount...");
@@ -165,65 +164,33 @@ const PlaceOrder = () => {
         <div className="multi-fields">
           <input
             required
-            name="firstName"
+            name="street"
             onChange={onChangeHandler}
-            value={data.firstName}
+            value={data.street}
             type="text"
-            placeholder="First name"
+            placeholder="Street"
           />
-          <input
-            required
-            name="lastName"
-            onChange={onChangeHandler}
-            value={data.lastName}
-            type="text"
-            placeholder="Last name"
-          />
+          <div className="multi-fields">
+            <input
+              required
+              name="city"
+              onChange={onChangeHandler}
+              value={data.city}
+              type="text"
+              placeholder="City"
+              readOnly
+            />
+            <input
+              required
+              name="state"
+              onChange={onChangeHandler}
+              value={data.state}
+              type="text"
+              placeholder="State"
+              readOnly
+            />
+          </div>
         </div>
-        <input
-          required
-          name="email"
-          onChange={onChangeHandler}
-          value={data.email}
-          type="email"
-          placeholder="E-mail"
-        />
-        <input
-          required
-          name="street"
-          onChange={onChangeHandler}
-          value={data.street}
-          type="text"
-          placeholder="Street"
-        />
-        <div className="multi-fields">
-          <input
-            required
-            name="city"
-            onChange={onChangeHandler}
-            value={data.city}
-            type="text"
-            placeholder="City"
-            readOnly
-          />
-          <input
-            required
-            name="state"
-            onChange={onChangeHandler}
-            value={data.state}
-            type="text"
-            placeholder="State"
-            readOnly
-          />
-        </div>
-        <input
-          required
-          name="phone"
-          onChange={onChangeHandler}
-          value={data.phone}
-          type="text"
-          placeholder="Phone"
-        />
       </div>
       <div className="place-order-right">
         <div className="cart-total">
@@ -247,7 +214,7 @@ const PlaceOrder = () => {
           <button type="submit">PAY ONLINE</button>
         </div>
         <div className="button-container">
-        <button type="button" onClick={placeOrderCod}>CASH ON DELIVERY</button>
+          <button type="button" onClick={placeOrderCod}>CASH ON DELIVERY</button>
         </div>
       </div>
     </form>

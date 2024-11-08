@@ -3,6 +3,7 @@
   justify-content: space-between;
   padding: 20px;
   gap: 60px; /* Adds gap between left and right sections */
+  padding-top: 80px !important;
 }
 
 .place-order-left,
@@ -97,11 +98,11 @@ h2 {
   }
 
   .place-order-left {
-    max-width: calc(50% - 15px); /* Fixed width with gap consideration */
+    max-width: calc(70% - 15px); /* Fixed width with gap consideration */
   }
 
   .place-order-right {
-    max-width: calc(50% + 15px); /* Adjusted to account for the gap */
+    max-width: calc(30% + 15px); /* Adjusted to account for the gap */
     background: #f9f9f9; /* Light background for distinction */
     padding: 20px;
     border-radius: 8px;
@@ -109,7 +110,7 @@ h2 {
   }
 
   .multi-fields {
-    flex-direction: row; /* Keep inputs in a row */
+    flex-direction: column; /* Keep inputs in a row */
     gap: 15px; /* Adjust gap between inputs */
   }
 
@@ -198,6 +199,7 @@ h2 {
     padding: 10px; /* Reduce padding for smaller screens */
     width: 85%;
     margin: 0 auto;
+    padding-top: 10px !important;
   }
 
   .place-order-left{
@@ -222,7 +224,7 @@ h2 {
   }
 
   h2 {
-    font-size: 1em; /* Further reduce heading size */
+    font-size: 1.4em; /* Further reduce heading size */
   }
 
   .cart-total-details {

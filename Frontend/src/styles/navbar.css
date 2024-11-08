@@ -6,6 +6,7 @@
     width: 100%; /* Makes it stretch across the full width */
     background-color: white; /* Optional: Set background color */
     z-index: 100;
+    position: fixed;
 }
 
 .navbar .logo {

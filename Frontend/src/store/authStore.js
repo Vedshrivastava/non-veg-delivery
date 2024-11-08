@@ -59,6 +59,7 @@ export const useAuthStore = create((set) => ({
       if (success) {
         set({ user, isAuthenticated: true, isLoading: false });
         localStorage.setItem("isVerified", user.isVerified); // Store isVerified in localStorage
+        localStorage.setItem("userPhone", user.phone);
         toast.success(message); // Display success toast
       } else {
         set({ error: message, isLoading: false });

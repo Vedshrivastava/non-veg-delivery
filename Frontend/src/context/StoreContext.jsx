@@ -24,6 +24,7 @@ const StoreContextProvider = (props) => {
   const [userId, setUserId] = useState(() => localStorage.getItem("userId") || "");
   const [userEmail, setUserEmail] = useState(() => localStorage.getItem("userEmail") || "");
   const [userName, setUserName] = useState(() => localStorage.getItem("userName") || "");
+  const [userPhone, setUserPhone] = useState(() => localStorage.getItem("userPhone") || "");
   const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem("token"));
   const [operationType, setOperationType] = useState(null);
   const [currentItemId, setCurrentItemId] = useState(null);
@@ -41,6 +42,7 @@ const StoreContextProvider = (props) => {
     localStorage.removeItem("userName")
     localStorage.removeItem("token"); 
     localStorage.removeItem("userId"); 
+    localStorage.removeItem("userPhone");
 };
 
   const addToCartOnServer = async (itemId) => {
@@ -282,6 +284,7 @@ const StoreContextProvider = (props) => {
     userEmail,
     isLoggedIn,
     currState,
+    userPhone,
     setCurrState,
     setIsLoggedIn,
     setToken,

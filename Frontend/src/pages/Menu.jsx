@@ -49,6 +49,7 @@ const Menu = () => {
         return acc;
     }, {});
 
+
     const handleCategoryClick = (categoryName) => {
         setCategory(categoryName);
     
@@ -60,13 +61,12 @@ const Menu = () => {
                 const targetPosition = element.offsetTop;
                 // Scroll to the position, 40px above the element
                 window.scrollTo({
-                    top: targetPosition - 80, // Stop 40px above the target
+                    top: targetPosition - 65, // Stop 40px above the target
                     behavior: 'smooth',
                 });
             }
         }, 100); // Delay of 100ms for smooth transition
     };
-    
 
     return (
         <div id='menu' className='menu'>

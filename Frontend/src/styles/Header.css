@@ -1,6 +1,6 @@
 .header {
     height: 34vw;
-    margin: 30px auto;
+    margin: 0px auto;
     background-size: cover; 
     background-repeat: no-repeat;
     background-position: center; 
@@ -83,7 +83,7 @@
         font-size: 5vw;
     }
     .header-contents button {
-        font-size: 3.8vw
+        font-size: 3.2vw
     }
 
     .header-contents {
