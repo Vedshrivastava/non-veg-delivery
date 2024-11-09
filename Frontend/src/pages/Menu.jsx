@@ -2,14 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import '../styles/menu.css';
 import axios from 'axios';
 import { StoreContext } from '../context/StoreContext';
-import { useLocation, useNavigate } from 'react-router-dom'; // Added to access the URL query
+import { useLocation, useNavigate } from 'react-router-dom';
 import FoodItem from '../components/FoodItem';
 
 const Menu = () => {
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState("All");
     const [error, setError] = useState(null);
-    const { url, food_list, getTotalCartAmount } = useContext(StoreContext); // Access food_list and getTotalCartAmount from context
+    const { url, food_list, getTotalCartAmount } = useContext(StoreContext);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -39,9 +39,28 @@ const Menu = () => {
         const selectedCategory = queryParams.get('category');
         if (selectedCategory) {
             setCategory(selectedCategory);
-            handleCategoryClick(selectedCategory); // Ensure the category is selected and active
         }
-    }, [location.search]); // Re-run when location.search changes
+    }, [location.search]);
+
+    // Scroll to the category section once `category` state is updated
+    useEffect(() => {
+        const scrollToCategory = () => {
+            if (category) {
+                const element = document.getElementById(category);
+                if (element) {
+                    const scrollOffset = window.innerWidth <= 480 ? 65 : 80;
+                    window.scrollTo({
+                        top: element.offsetTop - scrollOffset,
+                        behavior: 'smooth',
+                    });
+                }
+            }
+        };
+
+        // Delay to ensure the DOM is fully updated
+        const timeoutId = setTimeout(scrollToCategory, 150); // Delay for smooth transition
+        return () => clearTimeout(timeoutId); // Cleanup timeout on unmount
+    }, [category]);
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -55,18 +74,14 @@ const Menu = () => {
 
     const handleCategoryClick = (categoryName) => {
         setCategory(categoryName);
-    
+
         // Adding a slight delay for smooth scrolling
         setTimeout(() => {
             const element = document.getElementById(categoryName);
             if (element) {
-                // Get the position of the target element
                 const targetPosition = element.offsetTop;
-                
-                // Check if the screen width is 480px or below
                 const scrollOffset = window.innerWidth <= 480 ? 65 : 80;
-    
-                // Scroll to the position with the calculated offset
+
                 window.scrollTo({
                     top: targetPosition - scrollOffset,
                     behavior: 'smooth',
@@ -74,7 +89,6 @@ const Menu = () => {
             }
         }, 100); // Delay of 100ms for smooth transition
     };
-    
 
     return (
         <div id='menu' className='menu'>
@@ -91,7 +105,6 @@ const Menu = () => {
                 ))}
             </div>
             <div className="menu-food-items">
-                {/* Render all categories or the selected one */}
                 {Object.keys(groupedFoodItems).map((cat) => (
                     <div key={cat} className="category-section" id={cat}>
                         <h2>{cat}</h2>
