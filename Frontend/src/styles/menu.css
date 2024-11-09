@@ -11,7 +11,7 @@
 /* Sticky Categories container (left sidebar) */
 .menu-categories {
     position: sticky;
-    top: 90px; /* Adjust based on header height */
+    top: 98px; /* Adjust based on header height */
     left: 0;
     width: 250px; /* Fixed width for the sidebar */
     padding-top: 50px;
@@ -35,7 +35,6 @@
     gap: 8px;
     padding: 8px 10px;
     border: 1px solid #a9a9a9;
-    border-right: none;
     border-radius: 3px 0 0 3px;
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
@@ -154,6 +153,7 @@
         height: 50px !important;
         width: 120px; /* Fixed width for category items */
         flex-shrink: 0; /* Prevents items from shrinking */
+        border-radius: 8px !important;
     }
 
     .menu-category-item img {

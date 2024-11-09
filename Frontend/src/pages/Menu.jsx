@@ -51,7 +51,7 @@ const Menu = () => {
                     const scrollOffset = window.innerWidth <= 480 ? 65 : 80;
                     window.scrollTo({
                         top: element.offsetTop - scrollOffset,
-                        behavior: 'smooth',
+                        behavior: 'auto',
                     });
                 }
             }
@@ -87,7 +87,7 @@ const Menu = () => {
                     behavior: 'smooth',
                 });
             }
-        }, 100); // Delay of 100ms for smooth transition
+        }, 50); // Delay of 100ms for smooth transition
     };
 
     return (
