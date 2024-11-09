@@ -5,6 +5,7 @@ import crypto from 'crypto';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import userModel from "../models/user.js";
+import { broadcast } from "../middlewares/webSocket.js";
 
 const frontend_url = "http://localhost:5173";
 
@@ -46,6 +47,7 @@ const updateStatus = async (req, res) => {
         res.json({ success: false, message: "Error updating status" });
     }
 };
+
 const phonepeOrder = async (req, res) => {
     try {
         console.log("Received request:", req.body);
@@ -60,6 +62,19 @@ const phonepeOrder = async (req, res) => {
         });
         const savedOrder = await newOrder.save(); // Save the order to the database
         const transactionId = savedOrder._id; // Use order ID as the transaction ID
+
+        // Broadcast the new order event for PhonePe
+        broadcast({
+            event: 'newOrder',
+            message: {
+                orderId: savedOrder._id,
+                userId: savedOrder.userId,
+                items: savedOrder.items,
+                amount: savedOrder.amount,
+                paymentStatus: savedOrder.payment,
+                address: savedOrder.address,
+            },
+        });
 
         // Step 2: Prepare the data object for PhonePe payment
         const data = {
@@ -125,6 +140,7 @@ const phonepeOrder = async (req, res) => {
         return res.status(500).json({ error: error.response ? error.response.data : "Internal Server Error" });
     }
 };
+
 
 const status = async (req, res) => {
     try {
@@ -204,6 +220,19 @@ const codOrder = async (req, res) => {
 
         console.log("Transaction ID for COD order:", transactionId);
 
+        // Broadcast the new order event for COD
+        broadcast({
+            event: 'newOrder',
+            message: {
+                orderId: savedOrder._id,
+                userId: savedOrder.userId,
+                items: savedOrder.items,
+                amount: savedOrder.amount,
+                paymentStatus: savedOrder.payment,
+                address: savedOrder.address,
+            },
+        });
+
         const order = await Order.findById(transactionId);  
         const userId = order.userId;  
 
@@ -218,6 +247,7 @@ const codOrder = async (req, res) => {
         return res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
 
 
 export { userOrders, listOrders, updateStatus, phonepeOrder, status, codOrder };
