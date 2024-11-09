@@ -1,5 +1,6 @@
 import Food from "../models/food.js";
 import cloudinary from 'cloudinary';
+import { broadcast } from "../middlewares/webSocket.js";
 import fs from 'fs';
 
 const addFood = async (req, res) => {
@@ -90,6 +91,15 @@ const updateStock = async (req, res) => {
         if (!updatedFood) {
             return res.status(404).json({ success: false, message: "Food item not found" });
         }
+
+        broadcast({
+            event: 'food-stock-updated',
+            message: {
+                foodId: updatedFood._id.toString(),
+                name: updatedFood.name,
+                inStock: updatedFood.inStock,
+            },
+        });
 
         res.json({ success: true, message: "Stock Updated Successfully" });
     } catch (error) {

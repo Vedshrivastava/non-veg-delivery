@@ -2,6 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { useContext } from "react";
 import { StoreContext } from "../context/StoreContext";
+import { toast } from "react-hot-toast";
 
 axios.defaults.withCredentials = true;
 
@@ -11,25 +12,52 @@ export const useAuthStore = create((set) => ({
     isLoading: false,
     isCheckingAuth: true,
 
-    login: async (email, password) => {
+    login: async (phone, password, email) => {
         set({ isLoading: true, error: null });
+        console.log("Admin Login isLoading: true");
+    
         try {
-            const response = await axios.post(`http://localhost:4000/api/admin/login-admin`, { email, password });
-            const { user } = response.data;
-
-            // Save user data in localStorage
-            localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('isAuthenticated', 'true');
-
-            set({ user, isAuthenticated: true, isLoading: false });
-            console.log("Login response :--->> ", response.data);
-
-            return response;  // Return response data
+    
+            const response = await axios.post(
+                `http://localhost:4000/api/admin/login-admin`,  // Admin-specific endpoint
+                {email, phone, password}
+            );
+    
+            const { success, message, user } = response.data;
+    
+            if (success) {
+                // Ensure the user has an admin role
+                if (user.role !== "ADMIN" && user.role !== "MANAGER") {
+                    const roleError = "You do not have permission to log in.";
+                    set({ error: roleError, isLoading: false });
+                    toast.error(roleError);
+                    return;
+                }
+    
+                // Set user data and authentication status
+                set({ user, isAuthenticated: true, isLoading: false });
+                localStorage.setItem("isVerified", user.isVerified);
+                localStorage.setItem("userPhone", user.phone);
+                toast.success(message); // Display success toast
+            } else {
+                set({ error: message, isLoading: false });
+                toast.error(message); // Display error toast
+            }
+    
+            console.log("Admin Login response :--->> ", response.data);
+            console.log("Admin Login isLoading: false");
+            return response; // Return response data
+    
         } catch (error) {
-            set({ error: error.response.data.message || "Error logging in", isLoading: false });
+            const errorMessage = error.response?.data?.message || "Error logging in";
+            set({ error: errorMessage, isLoading: false });
+            console.log("Admin Login isLoading: false");
+            toast.error(errorMessage); // Display error toast
             throw error;
         }
     },
+    
+    
 
     verifyEmail: async (code) => {
         set({ isLoading: true, error: null });

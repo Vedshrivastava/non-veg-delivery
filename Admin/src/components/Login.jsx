@@ -2,10 +2,10 @@ import React, { useState, useContext } from 'react';
 import '../styles/Login.css';
 import { assets_frontend } from '../assets/frontend_assets/assets';
 import { StoreContext } from '../context/StoreContext';
-import { Toaster, toast } from 'react-hot-toast'; // Adjusted import
+import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore.js';
-import { jwtDecode } from 'jwt-decode'; // Import jwt-decode
+import {jwtDecode} from 'jwt-decode';
 
 const Login = ({ setShowLogin }) => {
     const { isLoading, login, forgotPassword } = useAuthStore();
@@ -14,18 +14,18 @@ const Login = ({ setShowLogin }) => {
     const [currState, setCurrState] = useState("Login");
     const [data, setData] = useState({
         email: "",
+        phone: "",
         password: ""
     });
     const [forgotEmail, setForgotEmail] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [resetMessage, setResetMessage] = useState(""); 
+    const [resetMessage, setResetMessage] = useState("");
 
     const navigate = useNavigate();
 
     const onChangeHandler = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setData(data => ({ ...data, [name]: value }));
+        const { name, value } = event.target;
+        setData((prevData) => ({ ...prevData, [name]: value }));
     };
 
     const onForgotEmailChange = (event) => {
@@ -51,39 +51,34 @@ const Login = ({ setShowLogin }) => {
             }
         } else {
             try {
-                const response = await login(data.email, data.password);
+                
+                const response = await login(data.phone, data.password, data.email);
                 if (response.data.success) {
-                    // Check if the user is an admin
+                    // Check if the user is an admin or manager
                     if (response.data.role !== "ADMIN" && response.data.role !== "MANAGER") {
                         toast.error("You do not have permission to log in.");
                         return; 
-                    }           
-                    // Proceed with the login process if the user is an admin
+                    }
+
                     const token = response.data.token;
                     setToken(token);
                     localStorage.setItem("token", token);
 
-                    // Decode the token to get user info
-                    const decodedToken = jwtDecode(token); 
-                    console.log("Decoded Token:", decodedToken);
-
+                    const decodedToken = jwtDecode(token);
                     localStorage.setItem("userId", decodedToken.id);
                     localStorage.setItem("userName", decodedToken.name);
                     localStorage.setItem("userEmail", decodedToken.email);
 
-                    // Set user information in context
                     setUserId(decodedToken.id);
                     setUserName(decodedToken.name);
                     setUserEmail(decodedToken.email);
                     setIsLoggedIn(true);
 
-                    toast.success("Logged in successfully!");
                     setTimeout(() => {
                         setShowLogin(false);
                         navigate('/');
-                    }, 2000); // Delay of 2000 milliseconds (2 seconds)
+                    }, 2000);
 
-                    // Set logout timer
                     const expirationTime = decodedToken.exp * 1000;
                     const logoutTime = expirationTime - Date.now();
 
@@ -137,6 +132,31 @@ const Login = ({ setShowLogin }) => {
                                 value={data.email}
                                 type='email'
                                 placeholder='Your Email'
+                            />
+                            <input
+                                name='phone'
+                                onChange={(event) => {
+                                    // Get the user input
+                                    const value = event.target.value;
+
+                                    // Check if the input starts with +91 or is empty
+                                    if (value === "" || value.startsWith("+91")) {
+                                        // Update the state without modifying the prefix
+                                        setData((prevData) => ({
+                                            ...prevData,
+                                            phone: value
+                                        }));
+                                    } else {
+                                        // Prepend +91 to the input value
+                                        setData((prevData) => ({
+                                            ...prevData,
+                                            phone: `+91${value}`
+                                        }));
+                                    }
+                                }}
+                                value={data.phone}
+                                type='text'
+                                placeholder='Your Phone Number'
                                 required
                             />
                             <input
@@ -154,9 +174,7 @@ const Login = ({ setShowLogin }) => {
                     {currState === 'Forgot Password' ? "Send Reset Link" : "Login"}
                 </button>
                 {currState === 'Login' && (
-                    <>
-                        <p>Forgot your password? <span onClick={() => setCurrState("Forgot Password")}>Reset</span></p>
-                    </>
+                    <p>Forgot your password? <span onClick={() => setCurrState("Forgot Password")}>Reset</span></p>
                 )}
                 {currState === 'Forgot Password' && (
                     <p>Remembered your password? <span onClick={() => setCurrState("Login")}>Login</span></p>

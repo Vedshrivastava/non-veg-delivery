@@ -210,7 +210,7 @@ const Login = ({ setShowLogin }) => {
                             }}
                             value={forgotInput}
                             type='text'
-                            placeholder={`Enter your Email or Phone for reset`}
+                            placeholder={`Enter your Phone no.`}
                             required
                         />
                     ) : (
@@ -254,26 +254,18 @@ const Login = ({ setShowLogin }) => {
                                 onChange={onChangeHandler}
                                 value={data.email}
                                 type='email'
-                                placeholder='Your email'
+                                placeholder='Your email (optional)'
                             />
                         </>
                     )}
                 </div>
                 {currState === 'signUp' ? (
                     <div className="signup-method-texts">
-                        {/* Replace button with span or a tag */}
-                        <span
-                            onClick={() => !isLoading && handleSignup(data, 'email')}
-                            style={{ cursor: isLoading ? 'default' : 'pointer', color: isLoading ? 'gray' : 'blue', textDecoration: 'underline' }}
-                        >
-                            {isLoading ? "Processing..." : "Signup using Email"}
-                        </span>
-
                         <span
                             onClick={() => !isLoading && handleSignup(data, 'phone')}
                             style={{ cursor: isLoading ? 'default' : 'pointer', color: isLoading ? 'gray' : 'blue', textDecoration: 'underline', marginLeft: '10px' }}
                         >
-                            {isLoading ? "Processing..." : "Signup using Phone"}
+                            {isLoading ? "Processing..." : "Signup"}
                         </span>
                     </div>
                 ) : (

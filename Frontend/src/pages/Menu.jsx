@@ -62,14 +62,19 @@ const Menu = () => {
             if (element) {
                 // Get the position of the target element
                 const targetPosition = element.offsetTop;
-                // Scroll to the position, 40px above the element
+                
+                // Check if the screen width is 480px or below
+                const scrollOffset = window.innerWidth <= 480 ? 65 : 80;
+    
+                // Scroll to the position with the calculated offset
                 window.scrollTo({
-                    top: targetPosition - 65, // Stop 40px above the target
+                    top: targetPosition - scrollOffset,
                     behavior: 'smooth',
                 });
             }
         }, 100); // Delay of 100ms for smooth transition
     };
+    
 
     return (
         <div id='menu' className='menu'>

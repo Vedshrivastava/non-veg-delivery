@@ -13,6 +13,7 @@ const truncateDescription = (description, maxWords) => {
 
 const FoodItem = ({ id, name, price, description, image, inStock }) => {
     const [averageRating, setAverageRating] = useState(0);
+    const [stockStatus, setStockStatus] = useState(inStock);  // Track the stock status locally
     const { cartItems = {}, addToCart, handleDecrement, handleIncrement } = useContext(StoreContext);
     const navigate = useNavigate();
     const { url } = useContext(StoreContext); 
@@ -52,6 +53,38 @@ const FoodItem = ({ id, name, price, description, image, inStock }) => {
         if (id) {
             fetchReviews();
         }
+
+        // WebSocket for real-time stock updates
+        const socket = new WebSocket('ws://localhost:4000');
+
+        socket.addEventListener('open', () => {
+            console.log('WebSocket connection established.');
+            socket.send(JSON.stringify({ type: 'subscribe', foodId: id }));  // Optionally, send a subscription message if needed
+        });
+
+        socket.addEventListener('message', (event) => {
+            const message = JSON.parse(event.data);
+            console.log('WebSocket message received:', message);
+        
+            if (message && message.event === 'food-stock-updated' && message.message) {
+                const { foodId, inStock } = message.message;
+                if (foodId === id) {
+                    console.log('Stock updated for this food item');
+                    setStockStatus(inStock);
+                } else {
+                    console.log('Food ID mismatch, expected:', id, 'but got:', foodId);
+                }
+            } else {
+                console.log('Invalid message structure:', message);
+            }
+        });
+        
+
+        // Clean up WebSocket connection on unmount
+        return () => {
+            console.log('Closing WebSocket connection');
+            socket.close();
+        };
     }, [id, url]);
 
     const renderStars = (rating) => {
@@ -74,7 +107,7 @@ const FoodItem = ({ id, name, price, description, image, inStock }) => {
             <div className="food-item-img-container">
                 <img onClick={handleClick} className='food-item-image' src={image} alt={name} />
                 {
-                    !inStock ? (
+                    !stockStatus ? (
                         <div className="out-of-stock-message">Out of Stock</div>
                     ) : itemQuantity === 0 ? (
                         <img className='add' onClick={() => addToCart(id)} src={assets.add_icon_white} />
