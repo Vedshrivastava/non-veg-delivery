@@ -43,7 +43,7 @@ const Orders = ({ url }) => {
   // Update the status of an order
   const statusHandler = async (event, orderId) => {
     try {
-      const response = await axios.post(url + '/api/order/status', {
+      const response = await axios.post(url + '/api/order/update-status', {
         orderId,
         status: event.target.value,
       }, {
@@ -75,7 +75,7 @@ const Orders = ({ url }) => {
       const message = JSON.parse(event.data);
       
       switch (message.event) {
-        case 'newOrder':
+        case 'paymentConfirmed':
           console.log('New order received:', message.message);
           
           // Map the incoming message data to the expected order format

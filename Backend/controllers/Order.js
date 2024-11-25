@@ -63,18 +63,6 @@ const phonepeOrder = async (req, res) => {
         const savedOrder = await newOrder.save(); // Save the order to the database
         const transactionId = savedOrder._id; // Use order ID as the transaction ID
 
-        // Broadcast the new order event for PhonePe
-        broadcast({
-            event: 'newOrder',
-            message: {
-                orderId: savedOrder._id,
-                userId: savedOrder.userId,
-                items: savedOrder.items,
-                amount: savedOrder.amount,
-                paymentStatus: savedOrder.payment,
-                address: savedOrder.address,
-            },
-        });
 
         // Step 2: Prepare the data object for PhonePe payment
         const data = {
@@ -178,6 +166,19 @@ const status = async (req, res) => {
 
             // Step 6: Clear the user's cart
             const order = await Order.findById(merchantTransactionId);  // Get the order details
+
+            broadcast({
+                event: 'paymentConfirmed',
+                message: {
+                    orderId: merchantTransactionId,
+                    userId: order.userId,
+                    items: order.items,
+                    amount: order.amount,
+                    paymentStatus: true,
+                    address: order.address,
+                },
+            });
+
             const userId = order.userId;  // Get the user ID from the order
 
             // Clear the cart data for the user
