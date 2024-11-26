@@ -81,6 +81,13 @@ const Cart = () => {
           <b>Total</b>
           <b>₹{totalAmount + deliveryFee}</b>
         </div>
+        <div className="delivery-options">
+                    <select className="delivery-select">
+                        <option value="delivery">Delivery</option>
+                        <option value="in-car">In Car</option>
+                        <option value="take-away">Take Away</option>
+                    </select>
+                </div>
         <div className="button-container">
           <button onClick={() => navigate('/order')}>Select Delivery Address</button>
         </div>

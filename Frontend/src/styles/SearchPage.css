@@ -8,6 +8,7 @@
     background-color: #00000090; /* Semi-transparent background */
     display: grid;
     overflow: hidden; /* Prevent scrolling on the backdrop */
+    padding-top: 70px;
 }
 
 .search-container {

@@ -8,13 +8,20 @@ import FoodItem from '../components/FoodItem';
 const Menu = () => {
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState("All");
+    const [deliveryType, setDeliveryType] = useState("Delivery"); // State for delivery type
     const [error, setError] = useState(null);
-    const { url, food_list, getTotalCartAmount } = useContext(StoreContext);
+    const { url, food_list, getTotalCartAmount, handleDecrement, handleIncrement, removeFromCart, cartItems } = useContext(StoreContext);
     const location = useLocation();
     const navigate = useNavigate();
 
     const totalAmount = getTotalCartAmount() || 0;
     const deliveryFee = totalAmount ? 20 : 0;
+
+    // Update deliveryType state in localStorage whenever it changes
+    useEffect(() => {
+        localStorage.setItem('deliveryType', deliveryType);
+    }, [deliveryType]);
+
 
     // Fetch categories
     useEffect(() => {
@@ -90,6 +97,8 @@ const Menu = () => {
         }, 50); // Delay of 100ms for smooth transition
     };
 
+
+
     return (
         <div id='menu' className='menu'>
             <div className="menu-categories">
@@ -124,21 +133,51 @@ const Menu = () => {
                     </div>
                 ))}
             </div>
-            <div className="cart-bottom">
-                <div className="cart-total">
-                    <h2>Cart Total</h2>
+            <div className="cart-right">
+                <div className="cart-right-total">
+                    <h2>Cart</h2>
                 </div>
-                <div className="cart-total-details">
+                <div className="delivery-options">
+                    <select
+                        className="delivery-select"
+                        value={deliveryType}
+                        onChange={(e) => setDeliveryType(e.target.value)}
+                    >
+                        <option value="Delivery">Delivery</option>
+                        <option value="In Car">In Car</option>
+                        <option value="Take Away">Take Away</option>
+                    </select>
+                </div>
+
+                <div>
+                    {
+                        food_list.map((item) => {
+                            const quantity = cartItems[item._id] || 0;
+                            if (quantity > 0) {
+                                return (
+                                    <div key={item._id} className="cart-items-title cart-items-item">
+                                        <p>{item.name}</p>
+                                        <p>x {quantity}</p>
+                                        <p className='total'>₹{item.price * quantity}</p>
+                                        <p onClick={() => removeFromCart(item._id)} className='cross'>x</p>
+                                    </div>
+                                );
+                            }
+                            return null;
+                        })
+                    }
+                </div>
+                <div className="cart-right-total-details">
                     <p>Subtotal</p>
                     <p>₹{totalAmount}</p>
                 </div>
                 <hr />
-                <div className="cart-total-details">
+                <div className="cart-right-total-details">
                     <p>Delivery Fee</p>
                     <p>₹{deliveryFee}</p>
                 </div>
                 <hr />
-                <div className="cart-total-details">
+                <div className="cart-right-total-details">
                     <b>Total</b>
                     <b>₹{totalAmount + deliveryFee}</b>
                 </div>
