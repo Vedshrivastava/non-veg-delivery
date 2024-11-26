@@ -4,7 +4,7 @@ import '../styles/ExploreMenu.css';
 import axios from 'axios';
 import { StoreContext } from '../context/StoreContext';
 
-const ExploreMenu = ({ setCategory }) => {
+const ExploreMenu = ({ category, setCategory }) => {
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState(null);
     const { url } = useContext(StoreContext);

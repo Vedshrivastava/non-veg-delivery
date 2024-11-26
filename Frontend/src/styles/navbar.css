@@ -1,5 +1,5 @@
 .navbar {
-    padding: 20px 0;
+    padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -179,7 +179,7 @@
 @media (max-width: 480px) {
     .navbar{
         background: #f4f4f4;
-        padding: 15px 0px;
+        padding: 15px;
         position: fixed; /* Fixes the navbar at the top */
         top: 0; /* Ensures it's at the very top */
         left: 0;

@@ -19,29 +19,29 @@
 .explore-menu-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 15px; /* Reduced gap between items */
+    justify-content: space-between; /* Evenly space the items */
+    align-items: flex-start; /* Align items at the top */
+    justify-content: center;
+    gap: 25px; /* Adjust spacing between cards */
     text-align: center;
     margin: 20px 0;
     overflow: visible;
+    margin: 0 auto; /* Center the container on the page */
 }
 
 .explore-menu-list-items {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: calc(25% - 15px); /* Adjust to fit 4 items per row by default */
-    max-width: 230px;
+    width: 14vw; /* Fixed width for 5 cards in a row */
     background-color: #f9f9f9;
     border: 1px solid #e0e0e0;
     border-radius: 12px;
-    padding: 12px; /* Reduced padding */
+    padding: 7px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
-
 .explore-menu-list-items img {
     width: 100%;
     height: auto;
@@ -83,14 +83,11 @@
     }
 
     .explore-menu-list-items {
-        width: calc(33.33% - 15px); /* Three items per row */
+        width: 140px;
     }
 }
 
 @media (max-width: 768px) {
-    .explore-menu-list-items {
-        width: calc(50% - 15px); /* Two items per row */
-    }
 
     .explore-menu h1{
         font-size: 4vw;
@@ -109,28 +106,21 @@
     }
 
     .explore-menu-list {
-        margin: 0px;
+        gap: 12px;
     }
-
+    
     .explore-menu-list-items {
-        width: calc(33.33% - 15px); /* 3 items per row */
-        margin: auto !important;
-        height: auto;
-        max-width: 160px;
-        padding: 8px; /* Reduced padding */
+        width: 25vw;
+        padding: 4px;
     }
 }
 
-@media (max-width: 421px) {
-    .explore-menu-list-items {
+@media (max-width: 360px) {
+    .explore-menu-list-items{
         height: 40vw;
     }
-}
-
-@media (max-width: 325px) {
-    .explore-menu-list-items {
-        width: 100%;
-        max-width: 200px;
-        padding: 5px;
+    .explore-menu-list-items p{
+        font-size: 4vw;
     }
 }
+

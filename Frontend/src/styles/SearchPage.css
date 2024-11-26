@@ -126,11 +126,11 @@
 @media (max-width: 480px) {
 
     .search{
-        padding-top: 70px;
+        padding-top: 30px;
     }
     
     .search-container {
-        width: 85%;
+        width: 95%;
         padding: 0px !important;
         max-height: 80vh;
     }
