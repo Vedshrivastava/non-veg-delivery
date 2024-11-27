@@ -8,19 +8,35 @@ import FoodItem from '../components/FoodItem';
 const Menu = () => {
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState("All");
-    const [deliveryType, setDeliveryType] = useState("Delivery"); // State for delivery type
     const [error, setError] = useState(null);
-    const { url, food_list, getTotalCartAmount, handleDecrement, handleIncrement, removeFromCart, cartItems } = useContext(StoreContext);
+    const { 
+        url, 
+        food_list, 
+        getTotalCartAmount, 
+        removeFromCart, 
+        cartItems,
+        orderType,
+        updateOrderType, 
+        fetchOrderAndSetType, 
+        setOrderType,
+        userId 
+    } = useContext(StoreContext);
     const location = useLocation();
     const navigate = useNavigate();
 
     const totalAmount = getTotalCartAmount() || 0;
     const deliveryFee = totalAmount ? 20 : 0;
 
-    // Update deliveryType state in localStorage whenever it changes
+    // Fetch order type for the user on initial load
     useEffect(() => {
-        localStorage.setItem('deliveryType', deliveryType);
-    }, [deliveryType]);
+        const savedOrderType = localStorage.getItem('orderType') || 'Delivery'; // Default to 'Delivery'
+        setOrderType(savedOrderType);
+      }, []);
+
+      
+    useEffect(() => {
+        fetchOrderAndSetType(userId); // Ensures orderType is set on mount
+    }, [fetchOrderAndSetType, userId]);
 
 
     // Fetch categories
@@ -94,10 +110,13 @@ const Menu = () => {
                     behavior: 'smooth',
                 });
             }
-        }, 50); // Delay of 100ms for smooth transition
+        }, 50);
     };
 
-
+    const handleDeliveryTypeChange = (event) => {
+        const selectedType = event.target.value;
+        updateOrderType(selectedType);
+    };
 
     return (
         <div id='menu' className='menu'>
@@ -140,8 +159,8 @@ const Menu = () => {
                 <div className="delivery-options">
                     <select
                         className="delivery-select"
-                        value={deliveryType}
-                        onChange={(e) => setDeliveryType(e.target.value)}
+                        onChange={handleDeliveryTypeChange}
+                        value={orderType} // Use updated local state
                     >
                         <option value="Delivery">Delivery</option>
                         <option value="In Car">In Car</option>

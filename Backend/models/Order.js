@@ -8,6 +8,7 @@ const orderSchema = new mongoose.Schema({
     status: { type: String, default: "Food Processing" },
     date: { type: Date, default: Date.now },
     payment: { type: Boolean, default: false },
+    orderType: {type: String, default: "Delivery"},
     restaurantPhone: { type: String, default: "6262909398" },
 });
 

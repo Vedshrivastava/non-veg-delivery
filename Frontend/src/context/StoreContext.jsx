@@ -30,6 +30,12 @@ const StoreContextProvider = (props) => {
   const [currentItemId, setCurrentItemId] = useState(null);
   const [currentQuantity, setCurrentQuantity] = useState(null);
   const [currState, setCurrState] = useState("Login");
+  const [orderType, setOrderType] = useState(() => {
+    const savedOrderType = localStorage.getItem("orderType");
+    console.log("savedordertype------>>>>>>>", savedOrderType)
+    return savedOrderType ? savedOrderType : "Delivery";
+  });
+
 
   const logout = () => {
     setToken(null); 
@@ -274,6 +280,72 @@ const StoreContextProvider = (props) => {
     });
   };
 
+  const updateOrderType = async (type) => {
+    try {
+      const response = await fetch(`${url}/api/cart/update-delivery-type`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ type }),
+      });
+  
+      const data = await response.json();
+      if (data.success) {
+        setOrderType(type);
+        localStorage.setItem("orderType", type); // Save to localStorage
+        console.log("Order type updated successfully");
+      } else {
+        console.error("Failed to update order type:", data.message);
+      }
+    } catch (error) {
+      console.error("Error updating order type:", error);
+    }
+  };
+
+  const fetchOrderAndSetType = async (userId) => {
+    try {
+      const response = await fetch(`${url}/api/user/get-user/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+  
+      const data = await response.json();
+      if (data.success && data.user) {
+        const fetchedOrderType = data.user.orderType || "Delivery";
+        setOrderType(fetchedOrderType);
+        localStorage.setItem("orderType", fetchedOrderType); // Persist in localStorage
+        return fetchedOrderType; // Return the fetched type for further use if needed
+      } else {
+        console.error("Failed to fetch order type:", data.message);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching order type:", error);
+      return null;
+    }
+  };
+
+  
+  useEffect(() => {
+    if (userId && token) {
+      const fetchAndSetOrderType = async () => {
+        try {
+          const fetchedOrderType = await fetchOrderAndSetType(userId);
+          setOrderType(fetchedOrderType || "Delivery");
+        } catch (error) {
+          console.error("Failed to fetch order type:", error);
+        }
+      };
+      fetchAndSetOrderType();
+    }
+  }, [userId, token]);
+  
+
   const contextValue = {
     food_list,
     cartItems,
@@ -285,6 +357,10 @@ const StoreContextProvider = (props) => {
     isLoggedIn,
     currState,
     userPhone,
+    orderType,
+    setOrderType,
+    updateOrderType,
+    fetchOrderAndSetType,
     setCurrState,
     setIsLoggedIn,
     setToken,

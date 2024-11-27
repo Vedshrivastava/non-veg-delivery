@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const PlaceOrder = () => {
-  const { getTotalCartAmount, token, setCartItems, food_list, cartItems, url, userName, userEmail, userPhone } =
+  const { getTotalCartAmount, token, setCartItems, food_list, cartItems, url, userName, userEmail, userPhone, orderType } =
     useContext(StoreContext);
   const navigate = useNavigate();
 
@@ -19,6 +19,7 @@ const PlaceOrder = () => {
     zipcode: "485446",
     country: "India",
     phone: userPhone,
+    orderType: orderType,
   });
 
   const onChangeHandler = (event) => {
@@ -45,6 +46,7 @@ const PlaceOrder = () => {
       address: data,
       items: orderItems,
       amount: getTotalCartAmount() ? getTotalCartAmount() + 20 : 0,
+      orderType: data.orderType,
       MID: 'MID' + Date.now(),
       transactionId: 'T' + Date.now(),
       customer: {
@@ -104,6 +106,7 @@ const PlaceOrder = () => {
       userId: localStorage.getItem("userId"),
       address: data,
       items: orderItems,
+      orderType: data.orderType,
       amount: getTotalCartAmount() ? getTotalCartAmount() + 20 : 0,
       customer: {
         name: userName,

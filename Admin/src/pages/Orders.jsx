@@ -73,11 +73,11 @@ const Orders = ({ url }) => {
     socket.addEventListener('message', (event) => {
       console.log('WebSocket Message:', event.data); // Log the entire message for debugging
       const message = JSON.parse(event.data);
-      
+
       switch (message.event) {
         case 'paymentConfirmed':
           console.log('New order received:', message.message);
-          
+
           // Map the incoming message data to the expected order format
           const newOrder = {
             _id: message.message.orderId,
@@ -88,19 +88,20 @@ const Orders = ({ url }) => {
             status: 'Food Processing', // Default status or can be adjusted based on your logic
             date: new Date(), // Assign current date or another date field if available
             address: message.message.address || {}, // Ensure that address is included in the message
+            orderType: message.message.orderType
           };
 
           setOrders((prevOrders) => {
             const updatedOrders = [newOrder, ...prevOrders];
             console.log('Updated Orders (newOrder):', updatedOrders);
-            return updatedOrders.sort((a, b) => new Date(b.date) - new Date(a.date)); 
+            return updatedOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
           });
           break;
 
         case 'updateOrderStatus':
           console.log('Order status updated:', message.message);
           setOrders((prevOrders) => {
-            const updatedOrders = prevOrders.map((order) => 
+            const updatedOrders = prevOrders.map((order) =>
               order._id === message.message.orderId ? { ...order, status: message.message.status } : order
             );
             console.log('Updated Orders (updateOrderStatus):', updatedOrders);
@@ -163,14 +164,21 @@ const Orders = ({ url }) => {
                   {order.payment ? ' Paid ✅' : ' Unpaid ❌'}
                 </p>
 
-                <select
-                  onChange={(event) => statusHandler(event, order._id)}
-                  value={order.status}
-                >
-                  <option value="Food Processing">Food Processing</option>
-                  <option value="Out For Delivery">Out For Delivery</option>
-                  <option value="Delivered">Delivered</option>
-                </select>
+                <div className='status-ordertype'>
+                  <select
+                    onChange={(event) => statusHandler(event, order._id)}
+                    value={order.status}
+                  >
+                    <option value="Food Processing">Food Processing</option>
+                    <option value="Out For Delivery">Out For Delivery</option>
+                    <option value="Delivered">Delivered</option>
+                  </select>
+
+                  <div className='order-type'>
+                    {order.orderType}
+                  </div>
+                </div>
+
               </div>
             ))}
             <hr className="order-date-separator" />

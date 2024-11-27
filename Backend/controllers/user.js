@@ -453,4 +453,33 @@ const forgotPassword = async (req, res) => {
     }
   }
 
-  export { loginUser, registerUser, verifyCode, forgotPassword, resetPassword, checkAuth, verifyUser };
+  const getUser = async (req, res) => {
+    const { userId } = req.params; // Assuming userId is passed as a route parameter.
+  
+    try {
+      // Find the user by userId
+      const user = await userModel.findById(userId).select("-password"); // Exclude password for security reasons
+  
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+  
+      // Return the user data
+      return res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return res.status(500).json({
+        success: false,
+        message: "An internal error occurred",
+      });
+    }
+  };
+  
+
+  export { loginUser, registerUser, verifyCode, forgotPassword, resetPassword, checkAuth, verifyUser, getUser };

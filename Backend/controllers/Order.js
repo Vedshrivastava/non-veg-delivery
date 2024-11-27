@@ -52,27 +52,26 @@ const phonepeOrder = async (req, res) => {
     try {
         console.log("Received request:", req.body);
 
-        // Step 1: Create the order in your database
         const newOrder = new Order({
             userId: req.body.userId,
             items: req.body.items,
-            amount: req.body.amount, // Storing the amount in paise
+            amount: req.body.amount,
             address: req.body.address,
-            payment: false // Payment not yet completed
+            orderType: req.body.orderType,
+            payment: false 
         });
-        const savedOrder = await newOrder.save(); // Save the order to the database
-        const transactionId = savedOrder._id; // Use order ID as the transaction ID
+        const savedOrder = await newOrder.save();
+        const transactionId = savedOrder._id;
 
-
-        // Step 2: Prepare the data object for PhonePe payment
         const data = {
             merchantId: process.env.MERCHANT_ID,
-            merchantTransactionId: transactionId, // Use the newly created order's ID
+            merchantTransactionId: transactionId, 
             userId: req.body.userId,
             items: req.body.items,
-            amount: req.body.amount * 100, // Convert amount to paise if needed
+            amount: req.body.amount * 100, 
             address: req.body.address,
-            redirectUrl: `http://localhost:4000/api/order/status?id=${transactionId}`, // Redirect URL with transaction ID (order ID)
+            orderType: req.body.orderType,
+            redirectUrl: `http://localhost:4000/api/order/status?id=${transactionId}`, 
             redirectMode: "POST",
             paymentInstrument: {
                 type: "PAY_PAGE"
@@ -81,7 +80,6 @@ const phonepeOrder = async (req, res) => {
 
         console.log("Payload data prepared:", data);
 
-        // Step 3: Create checksum and send request to PhonePe
         const payload = JSON.stringify(data);
         const payloadMain = Buffer.from(payload).toString('base64');
         console.log("Base64 encoded payload:", payloadMain);
@@ -116,8 +114,8 @@ const phonepeOrder = async (req, res) => {
 
         await axios(options).then(function(response) {
             console.log("Response from PhonePe API:", response.data);
-            console.log("Transaction ID used for payment:", transactionId); // Log the transaction ID used for payment
-            return res.json(response.data); // Consider extracting transaction ID from response if available
+            console.log("Transaction ID used for payment:", transactionId);
+            return res.json(response.data);
         }).catch(function(error) {
             console.error("Error occurred:", error);
             return res.status(500).json({ error: error.response ? error.response.data : "Internal Server Error" });
@@ -132,11 +130,11 @@ const phonepeOrder = async (req, res) => {
 
 const status = async (req, res) => {
     try {
-        const merchantTransactionId = req.query.id; // This should match the ID used in phonepeOrder (order ID)
+        const merchantTransactionId = req.query.id;
         const merchantId = process.env.MERCHANT_ID;
         const salt_key = process.env.SALT_KEY;
 
-        console.log("Checking status for transaction ID:", merchantTransactionId); // Log the transaction ID for status check
+        console.log("Checking status for transaction ID:", merchantTransactionId); 
 
         const keyIndex = 1;
         const SHA256 = (input) => {
@@ -155,17 +153,14 @@ const status = async (req, res) => {
             }
         };
 
-        // Step 4: Making the request to PhonePe to check payment status
         const response = await axios.request(options);
 
         console.log('Response from PhonePe API:', response.data);
 
         if (response.data.success === true) {
-            // Step 5: If the transaction was successful, update the order status
             await Order.findByIdAndUpdate(merchantTransactionId, { payment: true });
 
-            // Step 6: Clear the user's cart
-            const order = await Order.findById(merchantTransactionId);  // Get the order details
+            const order = await Order.findById(merchantTransactionId);
 
             broadcast({
                 event: 'paymentConfirmed',
@@ -176,28 +171,24 @@ const status = async (req, res) => {
                     amount: order.amount,
                     paymentStatus: true,
                     address: order.address,
+                    orderType: order.orderType
                 },
             });
 
-            const userId = order.userId;  // Get the user ID from the order
+            const userId = order.userId;  
 
-            // Clear the cart data for the user
             await userModel.findByIdAndUpdate(userId, { $set: { cartData: {} } });
 
-            // Step 7: Redirect to the success URL
             const successUrl = `http://localhost:5173/success`;
             console.log('Redirecting to:', successUrl);
             return res.redirect(successUrl);
         } else {
-            // Step 8: If the transaction failed, redirect to failure URL
             const failureUrl = `http://localhost:5173/fail`;
             console.log('Redirecting to:', failureUrl);
             return res.redirect(failureUrl);
         }
     } catch (error) {
         console.error('Error while processing status:', error);
-
-        // Redirecting to the failure URL in case of an error
         const failureUrl = `http://localhost:5173/api/order/fail`;
         console.log('Error occurred, redirecting to:', failureUrl);
         return res.redirect(failureUrl);
@@ -213,6 +204,7 @@ const codOrder = async (req, res) => {
             items: req.body.items,
             amount: req.body.amount,
             address: req.body.address,
+            orderType: req.body.orderType,
             payment: false
         });
 
@@ -221,9 +213,8 @@ const codOrder = async (req, res) => {
 
         console.log("Transaction ID for COD order:", transactionId);
 
-        // Broadcast the new order event for COD
         broadcast({
-            event: 'newOrder',
+            event: 'paymentConfirmed',
             message: {
                 orderId: savedOrder._id,
                 userId: savedOrder.userId,
@@ -231,15 +222,18 @@ const codOrder = async (req, res) => {
                 amount: savedOrder.amount,
                 paymentStatus: savedOrder.payment,
                 address: savedOrder.address,
+                orderType: savedOrder.orderType,
             },
         });
 
         const order = await Order.findById(transactionId);  
         const userId = order.userId;  
 
-        // Clear the cart data for the user
-        await userModel.findByIdAndUpdate(userId, { $set: { cartData: {} } });
-
+        await userModel.findByIdAndUpdate(userId, { 
+            $set: { cartData: {} }, 
+            $unset: { orderType: "" }
+          });
+          
         const successUrl = `http://localhost:5173/success`;
         return res.status(200).json({ success: true, successUrl });
 

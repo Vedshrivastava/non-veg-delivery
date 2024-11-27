@@ -65,6 +65,14 @@
     margin-left: 16px;
   }
 
+  .order-type{
+    color: green;
+    font-size: x-large;
+    font-weight: 600;
+    margin-top: 80px;
+    margin-left: 6px;
+  }
+
 
 /* Responsive adjustments */
 @media (max-width: 1000px) {

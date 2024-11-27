@@ -26,6 +26,37 @@ const addToCart = async (req, res) => {
     }
 };
 
+const updateDeliveryType = async (req, res) => {
+    try {
+        const userId = req.userId;  // Extract userId from request (ensure middleware sets this properly)
+        const { type } = req.body; // Extract delivery type from the request body
+
+        // Fetch the user document
+        const userData = await userModel.findById(userId);
+        if (!userData) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Update the order type in the database
+        const updatedUser = await userModel.findByIdAndUpdate(
+            userId,
+            { $set: { orderType: type } },
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedUser) {
+            return res.status(500).json({ success: false, message: 'Failed to update order type' });
+        }
+
+        // Respond with success and updated data for verification
+        res.json({ success: true, message: "Updated order type", orderType: updatedUser.orderType });
+    } catch (error) {
+        console.error("Error updating order type:", error);
+        res.status(500).json({ success: false, message: "Failed to update" });
+    }
+};
+
+
 const updateCartQuantity = async (req, res) => {
     try {
         const userId = req.userId;  
@@ -91,4 +122,4 @@ const getCart = async (req, res) => {
     }
 };
 
-export { addToCart, removeFromCart, getCart, updateCartQuantity };
+export { addToCart, removeFromCart, getCart, updateCartQuantity, updateDeliveryType };

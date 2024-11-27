@@ -173,6 +173,13 @@
 
 
 @media (max-width: 1160px) {
+
+    .menu-food-items{
+        width: 50%;
+    }
+}
+
+@media (max-width: 1020px) {
     .menu .cart-right{
         display: none;
     }

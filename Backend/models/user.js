@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     cartData: { type: Object, default: {} },
+    orderType: {type: String, default: "Delivery"},
   },
   { minimize: false }
 );
